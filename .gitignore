@@ -1,0 +1,14 @@
+#Maven Stuff
+target/
+log/
+output.json
+
+# macOS stuff
+.DS_Store
+
+#To push the db or not to push the db?
+#data.json
+
+#VSCode
+.vscode/
+
