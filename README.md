@@ -2,6 +2,20 @@
 
 A simple classic Rock Paper Scissors game in Java for CS151.
 
+### Setup (Maven)
+
+1. Install [Maven](https://maven.apache.org/download.cgi) if you haven't already, (run `mvn -v` to check if you have it already)
+   - macOS: use brew, `brew install maven`
+   - Windows: download the zip, extract it, and add the `bin` folder to your PATH
+2. From the project root directory, compile with:
+   ```
+   mvn compile
+   ```
+3. Run the app:
+   ```
+   mvn exec:java -Dexec.mainClass="depen.App"
+   ```
+
 ### How to Run
 
 1. Run the main class to start playing
