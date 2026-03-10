@@ -25,6 +25,9 @@ public class Player {
     public String getName() {
         return name;
     }
+    public String getFavoriteMove(){
+        return favoriteMove;
+    }
 
     public void incrementWins() {
         this.wins++;

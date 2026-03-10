@@ -4,6 +4,7 @@ import depen.DataLoader;
 import depen.Player;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -21,22 +22,15 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         DataLoader dl = new DataLoader(".", "data.json");
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Scanner scnr = new Scanner(System.in);
         Random rand = new Random();
         
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(dl.load(gson)));
-        int currRound = 1;   
+        int currRound = 1;
 
-        System.out.println("Enter your username:");
-        String userName = scnr.nextLine();
-        
-        for (Player player : players) {
-            if (player.getUserName().equals(userName)) {
-                System.out.println("Welcome back, " + player.getName() + "!");
-                currentPlayer = player;
-            }
-        }
+        UserManagement um = new UserManagement(players);
+        currentPlayer = um.login(scnr);
         
 
         while(currRound <= numOfRounds) {
@@ -51,9 +45,8 @@ public class App {
         }
         scnr.close();
         currentPlayer.setFavoriteMove();
-        players.removeIf(player -> player.getUserName().equals(currentPlayer.getUserName()));
-        players.add(currentPlayer);
-        Player[] finalPlayers = players.toArray(new Player[0]);
+        um.savePlayer(currentPlayer);
+        Player[] finalPlayers = um.getPlayers().toArray(new Player[0]);
         dl.store(gson, finalPlayers);
     }
 
