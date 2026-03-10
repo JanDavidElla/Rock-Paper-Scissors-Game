@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Writer;
 
-public class DataLoader {
+public class DataLoader implements DataStorage {
 
     private String filePath;
     private String fileName;
