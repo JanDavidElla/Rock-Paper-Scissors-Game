@@ -2,6 +2,8 @@ package depen;
 
 import depen.DataLoader;
 import depen.Player;
+import depen.UserManagement;
+import depen.Move;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,25 +90,21 @@ public class App {
     }
 
     public static String humanChoice(int userMove) {
-        if(userMove == 1) {
-            return "rock";
-        } else if(userMove == 2) {
-            return "paper";
-        } else if(userMove == 3) {
-            return "scissors";
-        } else {
-            return "Invalid move";
+        for(Move move : Move.values()) {
+            if(move.getValue() == userMove) {
+                return move.getName();
+            }
         }
+        return "Invalid move";
     }
 
     public static String computerChoice(int computerChoice) {
-        if(computerChoice == 1) {
-            return "rock";
-        } else if(computerChoice == 2) {
-            return "paper";
-        } else {
-            return "scissors";
+        for(Move move : Move.values()) {
+            if(move.getValue() == computerChoice) {
+                return move.getName();
+            }
         }
+        return "Invalid move";
     }
 
     public static void printScore(int userMove, int computerChoice, String win) {
