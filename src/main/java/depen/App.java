@@ -1,32 +1,27 @@
 package depen;
 
-import depen.DataLoader;
-import depen.Player;
-import depen.UserManagement;
-import depen.Move;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;   
+import java.util.Scanner;
 import java.util.ArrayList;
 
 
 public class App {
 
-    static int numOfRounds = 20;
-    static int humanScore = 0;
-    static int computerScore = 0;
-    static int tieScore = 0;
-    static Player currentPlayer = null;
+    private static int numOfRounds = 20;
+    private static Move lastUserMove = null;
+    private static int humanScore = 0;
+    private static int computerScore = 0;
+    private static int tieScore = 0;
+    private static Player currentPlayer = null;
 
     public static void main(String[] args) throws Exception {
         DataLoader dl = new DataLoader(".", "data.json");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Scanner scnr = new Scanner(System.in);
-        Random rand = new Random();
+        Prediction prediction = new Prediction();
         
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(dl.load(gson)));
         int currRound = 1;
@@ -36,12 +31,12 @@ public class App {
         
 
         while(currRound <= numOfRounds) {
-            int computerChoice = rand.nextInt(3) + 1; //compares 1-3 for user input
             System.out.print("Round " + currRound + " - ");
-            int userMove = getValidMove(scnr);
+            Move userMove = getValidMove(scnr);
+            Move computerChoice = prediction.predictMove(currentPlayer.getMoveHistory(), lastUserMove);
             playRound(userMove, computerChoice, currentPlayer);
             System.out.println();
-            
+            lastUserMove = userMove;
             currRound++;
 
         }
@@ -53,7 +48,7 @@ public class App {
     }
 
 
-    public static int getValidMove(Scanner scnr) {
+    public static Move getValidMove(Scanner scnr) {
         while(true) {
             System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
 
@@ -65,7 +60,7 @@ public class App {
 
             int userMove = scnr.nextInt();
             if(userMove >= 1 && userMove <= 3) {
-                return userMove;
+                return Move.values()[userMove - 1]      ;
             } else {
                 System.out.println("Invalid input. Try again.");
             }
@@ -73,11 +68,11 @@ public class App {
         }
     }
 
-    public static void playRound(int userMove, int computerChoice, Player player) {
+    public static void playRound(Move userMove, Move computerChoice, Player player) {
         if(userMove == computerChoice) {
             printScore(userMove, computerChoice, "Draw!"); 
             tieScore++;
-        } else if((userMove == 1 && computerChoice == 3) || (userMove == 2 && computerChoice == 1) || (userMove == 3 && computerChoice == 2)) {
+        } else if((userMove == Move.ROCK && computerChoice == Move.SCISSORS) || (userMove == Move.PAPER && computerChoice == Move.ROCK) || (userMove == Move.SCISSORS && computerChoice == Move.PAPER)) {
             printScore(userMove, computerChoice, "You win this round!");
             humanScore++;
             player.incrementWins();
@@ -86,28 +81,18 @@ public class App {
             computerScore++;
             player.incrementLosses();
         }
-        player.addMoveToHistory(userMove == 1 ? 'R' : userMove == 2 ? 'P' : 'S');
+        player.addMoveToHistory(userMove);
     }
 
-    public static String humanChoice(int userMove) {
-        for(Move move : Move.values()) {
-            if(move.getValue() == userMove) {
-                return move.getName();
-            }
-        }
-        return "Invalid move";
+    public static String humanChoice(Move userMove) {
+        return userMove.getName();
     }
 
-    public static String computerChoice(int computerChoice) {
-        for(Move move : Move.values()) {
-            if(move.getValue() == computerChoice) {
-                return move.getName();
-            }
-        }
-        return "Invalid move";
+    public static String computerChoice(Move computerChoice) {
+        return computerChoice.getName();
     }
 
-    public static void printScore(int userMove, int computerChoice, String win) {
+    public static void printScore(Move userMove, Move computerChoice, String win) {
         System.out.println("You chose " + humanChoice(userMove) + ". The computer chose " + computerChoice(computerChoice) + ". " + win);
         System.out.println("Score: Human: " + humanScore + " Computer: " + computerScore + " Draws: " + tieScore);
     }

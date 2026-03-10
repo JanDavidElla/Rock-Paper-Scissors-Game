@@ -8,7 +8,7 @@ public class Player {
     private Integer wins;
     private Integer losses;
     private String favoriteMove;
-    private ArrayList<Character> moveHistory;
+    private ArrayList<Move> moveHistory;
 
     public Player(String userName, String name) {
         this.userName = userName;
@@ -16,7 +16,7 @@ public class Player {
         this.wins = 0;
         this.losses = 0;
         this.favoriteMove = null;
-        this.moveHistory = new ArrayList<>();
+        this.moveHistory = new ArrayList<Move>();
     }
 
     public String getUserName() {
@@ -27,6 +27,9 @@ public class Player {
     }
     public String getFavoriteMove(){
         return favoriteMove;
+    }
+    public ArrayList<Move> getMoveHistory() {
+        return moveHistory;
     }
 
     public void incrementWins() {
@@ -40,8 +43,8 @@ public class Player {
         this.name = name;
     }
 
-    public void addMoveToHistory(char move) {
-        this.moveHistory.add(move)  ;
+    public void addMoveToHistory(Move move) {
+        this.moveHistory.add(move);
     }
 
     public void setFavoriteMove() {
@@ -50,10 +53,10 @@ public class Player {
             return;
         }
         int rockCount = 0, paperCount = 0, scissorsCount = 0;
-        for (Character move : moveHistory) {
-            if (move == 'R') rockCount++;
-            else if (move == 'P') paperCount++;
-            else if (move == 'S') scissorsCount++;
+        for (Move move : moveHistory) {
+            if (move == Move.ROCK) rockCount++;
+            else if (move == Move.PAPER) paperCount++;
+            else if (move == Move.SCISSORS) scissorsCount++;
         }
         if (rockCount >= paperCount && rockCount >= scissorsCount) {
             this.favoriteMove = "Rock";
