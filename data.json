@@ -1,11 +1,1 @@
-[
-  {
-    "playerId": 67
-  },
-  {
-    "playerId": 68
-  },
-  {
-    "playerId": 69
-  }
-]
+[{"userName":"68","name":"Ron","wins":0,"losses":0,"moveHistory":[]},{"userName":"69","name":"Jan","wins":0,"losses":0,"moveHistory":[]},{"userName":"67","name":"Andrew","wins":12,"losses":12,"favoriteMove":"Paper","moveHistory":["R","R","R","R","R","P","P","P","P","P","P","S","S","S","P","P","P","R","P","P","S","P","S","P","S","P","S","P","S","P","S","P","S","P","R","S","P","S","P","P"]}]
