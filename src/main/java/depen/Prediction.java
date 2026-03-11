@@ -30,9 +30,9 @@ public class Prediction extends Player {
             
         }
 
-        if(rockCount >= paperCount && rockCount >= scissorsCount) {
+        if(rockCount >= paperCount && rockCount >= scissorsCount) { //If the user tends to pick rock, the computer will choose paper
             return Move.PAPER; 
-        } else if(paperCount >= rockCount && paperCount >= scissorsCount) {
+        } else if(paperCount >= rockCount && paperCount >= scissorsCount) { //If the user tends to pick paper, the computer will choose scissors
             return Move.SCISSORS;
         } else {
             return Move.ROCK;

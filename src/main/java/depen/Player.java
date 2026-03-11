@@ -52,14 +52,14 @@ public class Player {
             this.favoriteMove = null;
             return;
         }
-        int rockCount = 0, paperCount = 0, scissorsCount = 0;
+        int rockCount = 0, paperCount = 0, scissorsCount = 0; //This keeps track of which moves the user makes
         for (Move move : moveHistory) {
             if (move == Move.ROCK) rockCount++;
             else if (move == Move.PAPER) paperCount++;
             else if (move == Move.SCISSORS) scissorsCount++;
         }
-        if (rockCount >= paperCount && rockCount >= scissorsCount) {
-            this.favoriteMove = "Rock";
+        if (rockCount >= paperCount && rockCount >= scissorsCount) { //Favorite move is set to most used move.
+            this.favoriteMove = "Rock"; 
         } else if (paperCount >= rockCount && paperCount >= scissorsCount) {
             this.favoriteMove = "Paper";
         } else {

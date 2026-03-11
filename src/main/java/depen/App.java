@@ -29,8 +29,10 @@ public class App {
         UserManagement um = new UserManagement(players);
         currentPlayer = um.login(scnr);
         
-
-        while(currRound <= numOfRounds) {
+        /*
+        What happens each round
+        */
+        while(currRound <= numOfRounds) { 
             System.out.print("Round " + currRound + " - ");
             Move userMove = getValidMove(scnr);
             Move computerChoice = prediction.predictMove(currentPlayer.getMoveHistory(), lastUserMove);
@@ -41,15 +43,15 @@ public class App {
 
         }
         scnr.close();
-        currentPlayer.setFavoriteMove();
-        um.savePlayer(currentPlayer);
+        currentPlayer.setFavoriteMove(); 
+        um.savePlayer(currentPlayer); //Saves player for future plays
         Player[] finalPlayers = um.getPlayers().toArray(new Player[0]);
-        dl.store(gson, finalPlayers);
+        dl.store(gson, finalPlayers); 
     }
 
 
     public static Move getValidMove(Scanner scnr) {
-        while(true) {
+        while(true) { //Asks user again if given invalid input.
             System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
 
             if(!scnr.hasNextInt()) {
@@ -68,7 +70,7 @@ public class App {
         }
     }
 
-    public static void playRound(Move userMove, Move computerChoice, Player player) {
+    public static void playRound(Move userMove, Move computerChoice, Player player) { //Main game mechanism
         if(userMove == computerChoice) {
             printScore(userMove, computerChoice, "Draw!"); 
             tieScore++;
