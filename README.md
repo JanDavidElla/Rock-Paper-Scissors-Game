@@ -13,7 +13,7 @@ A simple classic Rock Paper Scissors game in Java for CS151.
    ```
 3. Run the app:
    ```
-   mvn exec:java -Dexec.mainClass="depen.App"
+   mvn "exec:java" "-Dexec.mainClass=depen.App"
    ```
 
 ### How to Run
