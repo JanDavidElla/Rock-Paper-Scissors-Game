@@ -275,7 +275,7 @@
     "userName": "testuser1",
     "name": "Vontavious",
     "wins": 37,
-    "losses": 29,
+    "losses": 42,
     "favoriteMove": "Rock",
     "moveHistory": [
       "ROCK",
@@ -357,7 +357,27 @@
       "SCISSORS",
       "ROCK",
       "PAPER",
-      "SCISSORS"
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER",
+      "SCISSORS",
+      "ROCK",
+      "PAPER"
     ]
   },
   {
