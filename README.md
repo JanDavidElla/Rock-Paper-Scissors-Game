@@ -20,7 +20,7 @@ A simple classic Rock Paper Scissors game in Java for CS151.
 
 1. Run the main class to start playing
 2. Enter your choice: Rock, Paper, or Scissors
-3. The game will compare your choice to the computer's choice (random) and declare a winner
+3. The game will compare your choice to the computer's choice (Finds out your most likely sequential move and chooses its opposite) and declare a winner
 
 ### Rules
 
