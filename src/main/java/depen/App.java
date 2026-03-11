@@ -49,8 +49,10 @@ public class App {
         dl.store(gson, finalPlayers); 
     }
 
+//This is the main valid move function
+//Change THIS if you want to change how moves are interpreted (Strings, integers, etc.)
 
-    public static Move getValidMove(Scanner scnr) {
+    public static Move getValidMove(Scanner scnr) { 
         while(true) { //Asks user again if given invalid input.
             System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
 
