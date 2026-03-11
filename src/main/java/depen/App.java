@@ -74,16 +74,16 @@ public class App {
 
     public static void playRound(Move userMove, Move computerChoice, Player player) { //Main game mechanism
         if(userMove == computerChoice) {
-            printScore(userMove, computerChoice, "Draw!"); 
             tieScore++;
+            printScore(userMove, computerChoice, "Draw!"); 
         } else if((userMove == Move.ROCK && computerChoice == Move.SCISSORS) || (userMove == Move.PAPER && computerChoice == Move.ROCK) || (userMove == Move.SCISSORS && computerChoice == Move.PAPER)) {
-            printScore(userMove, computerChoice, "You win this round!");
             humanScore++;
             player.incrementWins();
+            printScore(userMove, computerChoice, "You win this round!");
         } else {
-            printScore(userMove, computerChoice, "Computer wins this round!");
             computerScore++;
             player.incrementLosses();
+            printScore(userMove, computerChoice, "Computer wins this round!");
         }
         player.addMoveToHistory(userMove);
     }
