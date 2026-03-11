@@ -35,7 +35,7 @@ public class App {
         while(currRound <= numOfRounds) { 
             System.out.print("Round " + currRound + " - ");
             Move userMove = getValidMove(scnr);
-            Move computerChoice = prediction.predictMove(currentPlayer.getMoveHistory(), lastUserMove);
+            Move computerChoice = prediction.predictMove(currentPlayer, lastUserMove);
             playRound(userMove, computerChoice, currentPlayer);
             System.out.println();
             lastUserMove = userMove;
@@ -45,7 +45,7 @@ public class App {
         scnr.close();
         currentPlayer.setFavoriteMove(); 
         um.savePlayer(currentPlayer); //Saves player for future plays
-        Player[] finalPlayers = um.getPlayers().toArray(new Player[0]);
+        Player[] finalPlayers = um.getPlayersAsArray();
         dl.store(gson, finalPlayers); 
     }
 

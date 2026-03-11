@@ -7,6 +7,10 @@ public class Prediction extends Player {
         super("computer", "Computer");
     }
 
+    public Move predictMove(Player player, Move lastUserMove) {
+        return predictMove(player.getMoveHistory(), lastUserMove);
+    }
+
     public Move predictMove(ArrayList<Move> moveHistory, Move lastUserMove) {
         if(moveHistory.isEmpty()) {
             return Move.ROCK;

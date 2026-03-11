@@ -78,6 +78,10 @@ public class UserManagement {
         return players;
     }
 
+    public Player[] getPlayersAsArray() {
+        return players.toArray(new Player[0]);
+    }
+
     private Player findByUsername(String userName) {
         for (Player p : players) {
             if (p.getUserName().equals(userName)) {
