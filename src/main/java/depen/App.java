@@ -22,6 +22,7 @@ public class App {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Scanner scnr = new Scanner(System.in);
         Prediction prediction = new Prediction();
+        GameRules game = new GameRules();
         
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(dl.load(gson)));
         int currRound = 1;
@@ -29,6 +30,7 @@ public class App {
         UserManagement um = new UserManagement(players);
         currentPlayer = um.login(scnr);
         
+
         /*
         What happens each round
         */
@@ -51,7 +53,7 @@ public class App {
 
 //This is the main valid move function
 //Change THIS if you want to change how moves are interpreted (Strings, integers, etc.)
-
+//DELETE -> 
     public static Move getValidMove(Scanner scnr) { 
         while(true) { //Asks user again if given invalid input.
             System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
