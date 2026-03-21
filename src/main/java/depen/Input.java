@@ -20,12 +20,35 @@ public class Input {
             }
 
             int userMove = scnr.nextInt();
+
             if (userMove >= 1 && userMove <= 3) {
                 return Move.values()[userMove - 1];
             } else {
                 System.out.println("Invalid input. Try again.");
             }
+        }
+    }
 
+    public int getAlgorithmChoice() {
+        while (true) {
+            System.out.println("Choose computer algorithm:");
+            System.out.println("1 - Random");
+            System.out.println("2 - Machine Learning");
+            System.out.print("Enter choice: ");
+
+            if (!scnr.hasNextInt()) {
+                System.out.println("Invalid input. Try again.");
+                scnr.next();
+                continue;
+            }
+
+            int choice = scnr.nextInt();
+
+            if (choice == 1 || choice == 2) {
+                return choice;
+            } else {
+                System.out.println("Invalid input. Try again.");
+            }
         }
     }
 }
