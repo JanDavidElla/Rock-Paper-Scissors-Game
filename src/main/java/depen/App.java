@@ -15,6 +15,13 @@ public class App {
     private static int tieScore = 0;
 
     public static void main(String[] args) throws Exception {
+        if (args.length != 1 || (!args[0].equals("-r") && !args[0].equals("-m"))) {
+            System.out.println("Usage:");
+            System.out.println("  mvn exec:java -Dexec.mainClass=\"depen.App\" -Dexec.args=\"-r\"");
+            System.out.println("  mvn exec:java -Dexec.mainClass=\"depen.App\" -Dexec.args=\"-m\"");
+            return;
+        }
+
         DataLoader dl = new DataLoader(".", "data.json");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Scanner scnr = new Scanner(System.in);
@@ -25,10 +32,8 @@ public class App {
         UserManagement um = new UserManagement(players);
         Player currentPlayer = um.login(scnr);
 
-        int algorithmChoice = input.getAlgorithmChoice();
-
         ChoiceStrategy strategy;
-        if (algorithmChoice == 1) {
+        if (args[0].equals("-r")) {
             strategy = new RandomStrategy();
         } else {
             strategy = new Prediction();

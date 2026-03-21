@@ -35,6 +35,9 @@ public class GameRules {
 
             score(userMove, computerChoice, currentPlayer);
 
+            // Let the strategy update its internal model after the round
+            strategy.onRoundEnd(userMove, computerChoice);
+
             System.out.println();
             lastUserMove = userMove;
             currRound++;
@@ -45,6 +48,7 @@ public class GameRules {
         Player[] finalPlayers = um.getPlayersAsArray();
         dl.store(gson, finalPlayers);
 
+        strategy.onGameEnd();
         printFinalResult();
     }
 
