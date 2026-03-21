@@ -1,6 +1,12 @@
 package depen;
 
 import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 public class GameRules {
 
@@ -10,57 +16,41 @@ public class GameRules {
     private int computerScore = 0;
     private int tieScore = 0;
     private Player currentPlayer = null;
-    private Scanner scnr;
 
     //Default constructor
     public GameRules() { 
-        
+
     }
-    public GameRules(int numOfRounds, int humanScore, int computerScore, int tieScore, Scanner scnr) {
+    public GameRules(Player currentPlayer, int numOfRounds, int humanScore, int computerScore, int tieScore) {
+        this.currentPlayer = currentPlayer;
         this.numOfRounds = numOfRounds;
         this.humanScore = humanScore;
         this.computerScore = computerScore;
         this.tieScore = tieScore;
-        this.scnr = scnr;
 
     }
-
-    //could be moved to Input class
-    public Move getValidMove(Scanner scnr) {
-        while(true) {
-            System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
-
-            if(!scnr.hasNextInt()) {
-                System.out.println("Invalid input. Try again.");
-                scnr.next();
-                continue;
-            }
-
-            int userMove = scnr.nextInt();
-            if(userMove >= 1 && userMove <= 3) {
-                return Move.values()[userMove - 1]      ;
-            } else {
-                System.out.println("Invalid input. Try again.");
-            }
-
-        }
-    }
-
     //--------------------------------------------------------
 
 
     /*
     Main round mechanism    
     */
-    public void playRound(Move userMove, Move computerChoice, Player player) {
+    public void playRound(Prediction prediction, Input input, UserManagement um, Gson gson, DataLoader dl) {
         int currRound = 1;
         while(currRound <= numOfRounds) {
             System.out.print("Round " + currRound + " - ");
+            Move userMove = input.getInput();
+            Move computerChoice = prediction.predictMove(currentPlayer, lastUserMove);
             score(userMove, computerChoice, currentPlayer);
             System.out.println();
             lastUserMove = userMove;
             currRound++;
         } 
+
+        currentPlayer.setFavoriteMove();
+        um.savePlayer(currentPlayer);
+        Player[] finalPlayers = um.getPlayersAsArray();
+        dl.store(gson, finalPlayers);
     }
 
     public void score(Move userMove, Move computerChoice, Player player) { //Main scoring mechanism
