@@ -20,12 +20,12 @@ public class Input {
             }
 
             int userMove = scnr.nextInt();
+
             if (userMove >= 1 && userMove <= 3) {
                 return Move.values()[userMove - 1];
             } else {
                 System.out.println("Invalid input. Try again.");
             }
-
         }
     }
 }

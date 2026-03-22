@@ -15,10 +15,16 @@ public class App {
     private static int tieScore = 0;
 
     public static void main(String[] args) throws Exception {
+        if (args.length != 1 || (!args[0].equals("-r") && !args[0].equals("-m"))) {
+            System.out.println("Usage:");
+            System.out.println("  mvn exec:java -Dexec.mainClass=\"depen.App\" -Dexec.args=\"-r\"");
+            System.out.println("  mvn exec:java -Dexec.mainClass=\"depen.App\" -Dexec.args=\"-m\"");
+            return;
+        }
+
         DataLoader dl = new DataLoader(".", "data.json");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Scanner scnr = new Scanner(System.in);
-        Prediction prediction = new Prediction();
         Input input = new Input(scnr);
 
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(dl.load(gson)));
@@ -26,8 +32,17 @@ public class App {
         UserManagement um = new UserManagement(players);
         Player currentPlayer = um.login(scnr);
 
-        GameRules game = new GameRules(currentPlayer, numOfRounds, humanScore, computerScore, tieScore);
-        game.playRound(prediction, input, um, gson, dl);
+        
+        ChoiceStrategy strategy;
+        if (args[0].equals("-r")) {
+            strategy = new RandomStrategy();
+        } else {
+            strategy = new Prediction();
+        }
 
+        GameRules game = new GameRules(currentPlayer, numOfRounds, humanScore, computerScore, tieScore);
+        game.playRound(strategy, input, um, gson, dl);
+
+        scnr.close();
     }
 }

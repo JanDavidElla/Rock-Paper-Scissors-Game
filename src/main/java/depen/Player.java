@@ -16,18 +16,21 @@ public class Player {
         this.wins = 0;
         this.losses = 0;
         this.favoriteMove = null;
-        this.moveHistory = new ArrayList<Move>();
+        this.moveHistory = new ArrayList<>();
     }
 
     public String getUserName() {
         return userName;
     }
+
     public String getName() {
         return name;
     }
-    public String getFavoriteMove(){
+
+    public String getFavoriteMove() {
         return favoriteMove;
     }
+
     public ArrayList<Move> getMoveHistory() {
         return moveHistory;
     }
@@ -35,6 +38,7 @@ public class Player {
     public void incrementWins() {
         this.wins++;
     }
+
     public void incrementLosses() {
         this.losses++;
     }
@@ -52,20 +56,23 @@ public class Player {
             this.favoriteMove = null;
             return;
         }
-        int rockCount = 0, paperCount = 0, scissorsCount = 0; //This keeps track of which moves the user makes
+
+        int rockCount = 0;
+        int paperCount = 0;
+        int scissorsCount = 0;
+
         for (Move move : moveHistory) {
             if (move == Move.ROCK) rockCount++;
             else if (move == Move.PAPER) paperCount++;
             else if (move == Move.SCISSORS) scissorsCount++;
         }
-        if (rockCount >= paperCount && rockCount >= scissorsCount) { //Favorite move is set to most used move.
-            this.favoriteMove = "Rock"; 
+
+        if (rockCount >= paperCount && rockCount >= scissorsCount) {
+            this.favoriteMove = "Rock";
         } else if (paperCount >= rockCount && paperCount >= scissorsCount) {
             this.favoriteMove = "Paper";
         } else {
             this.favoriteMove = "Scissors";
         }
     }
-
-    
 }
