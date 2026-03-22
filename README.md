@@ -19,11 +19,15 @@ A simple classic Rock Paper Scissors game in Java for CS151.
    Run RANDOM version
    ```
    mvn exec:java -Dexec.mainClass="depen.App" -Dexec.args="-r"
+
+   Windows: mvn "exec:java" "-Dexec.mainClass=depen.App" "-Dexec.args=-r"
    ```
 
    Run MACHINE LEARNING version
    ```
    mvn exec:java -Dexec.mainClass="depen.App" -Dexec.args="-m"
+
+   Windows: mvn "exec:java" "-Dexec.mainClass=depen.App" "-Dexec.args=-m"
    ```
 
 ### How to Run

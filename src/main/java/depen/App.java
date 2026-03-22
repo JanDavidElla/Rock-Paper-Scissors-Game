@@ -32,6 +32,7 @@ public class App {
         UserManagement um = new UserManagement(players);
         Player currentPlayer = um.login(scnr);
 
+        
         ChoiceStrategy strategy;
         if (args[0].equals("-r")) {
             strategy = new RandomStrategy();
