@@ -249,8 +249,8 @@
   {
     "userName": "jan",
     "name": "jan",
-    "wins": 7,
-    "losses": 23,
+    "wins": 8,
+    "losses": 30,
     "favoriteMove": "Paper",
     "moveHistory": [
       "PAPER",
@@ -292,7 +292,27 @@
       "PAPER",
       "ROCK",
       "PAPER",
-      "SCISSORS"
+      "SCISSORS",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER",
+      "ROCK",
+      "SCISSORS",
+      "PAPER"
     ]
   }
 ]
