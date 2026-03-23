@@ -30,7 +30,7 @@ public class GameRules {
 
         while (currRound <= numOfRounds) {
             System.out.print("Round " + currRound + " - ");
-            Move userMove = input.playerMove();
+            Move userMove = input.getInput();
             Move computerChoice = strategy.chooseMove(currentPlayer, lastUserMove);
 
             score(userMove, computerChoice, currentPlayer);

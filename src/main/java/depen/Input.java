@@ -9,7 +9,7 @@ public class Input {
         this.scnr = scnr;
     }
 
-    public Move playerMove() {
+    public Move getInput() {
         while (true) {
             System.out.print("Choose (1 = rock, 2 = paper, 3 = scissors): ");
 
@@ -26,21 +26,6 @@ public class Input {
             } else {
                 System.out.println("Invalid input. Try again.");
             }
-        }
-    }
-
-    public ChoiceStrategy chooseComputerStrategy() {
-        while (true) {
-            System.out.print("Choose strategy: R (random) or M (machine learning?): ");
-            String s = scnr.next();
-            if(s.equalsIgnoreCase("r")) {
-                return new RandomStrategy();
-            } else if (s.equalsIgnoreCase("m")) {
-                return new Prediction();
-            } else {
-                System.out.println("Invalid input, try again.");
-            }
-
         }
     }
 }
