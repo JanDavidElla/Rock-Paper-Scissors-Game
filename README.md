@@ -30,6 +30,11 @@ A simple classic Rock Paper Scissors game in Java for CS151.
    Windows: mvn "exec:java" "-Dexec.mainClass=depen.App" "-Dexec.args=-m"
    ```
 
+4. How to run tests:
+   ```
+   use "mvn test"
+   ```
+
 ### How to Run
 
 1. Run the main class to start playing
