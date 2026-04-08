@@ -13,3 +13,6 @@ output.json
 .vscode/
 
 ml-data.json
+
+bin/
+*.jar
