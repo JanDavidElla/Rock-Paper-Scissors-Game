@@ -6,9 +6,9 @@ public class RandomStrategy implements ChoiceStrategy {
     private final Random random = new Random();
 
     @Override
-    public Move chooseMove(Player player, Move lastUserMove) {
+    public PredictionSnapshot getPredictionSnapshot(Player player, Move lastUserMove) {
         Move[] moves = Move.values();
-        return moves[random.nextInt(moves.length)];
+        return new PredictionSnapshot(null, moves[random.nextInt(moves.length)], null);
     }
 
     @Override

@@ -115,11 +115,6 @@ public class AppTest {
         }
 
         @Override
-        public Move chooseMove(Player player, Move lastUserMove) {
-            return getPredictionSnapshot(player, lastUserMove).getComputerMove();
-        }
-
-        @Override
         public PredictionSnapshot getPredictionSnapshot(Player player, Move lastUserMove) {
             PredictionSnapshot snapshot = snapshots[Math.min(index, snapshots.length - 1)];
             index++;

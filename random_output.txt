@@ -1,0 +1,39 @@
+This file demonstrates sample output from running the application in Random Strategy mode.
+
+Game Mode: Random Strategy
+Total Rounds: 20
+
+New game started: 20 rounds using Random AI.
+
+Round 1: Human Rock | Computer Scissors | Human wins
+Round 2: Human Paper | Computer Paper | Tie
+Round 3: Human Scissors | Computer Rock | Computer wins
+Round 4: Human Rock | Computer Scissors | Human wins
+Round 5: Human Paper | Computer Rock | Human wins
+Round 6: Human Scissors | Computer Paper | Human wins
+Round 7: Human Rock | Computer Scissors | Human wins
+Round 8: Human Scissors | Computer Rock | Computer wins
+Round 9: Human Paper | Computer Paper | Tie
+Round 10: Human Rock | Computer Scissors | Human wins
+Round 11: Human Scissors | Computer Scissors | Tie
+Round 12: Human Paper | Computer Paper | Tie
+Round 13: Human Scissors | Computer Scissors | Tie
+Round 14: Human Rock | Computer Rock | Tie
+Round 15: Human Scissors | Computer Scissors | Tie
+Round 16: Human Paper | Computer Rock | Human wins
+Round 17: Human Scissors | Computer Rock | Computer wins
+Round 18: Human Rock | Computer Rock | Tie
+Round 19: Human Paper | Computer Paper | Tie
+Round 20: Human Scissors | Computer Paper | Human wins
+
+Final Statistics:
+Human wins: 8
+Computer wins: 3
+Ties: 9
+
+Summary:
+The Random Strategy selects moves without considering previous 
+rounds. The results show no consistent pattern in the computer’s 
+choices, leading to a balanced distribution of wins, losses, and 
+ties. Unlike the Intelligent Strategy, this mode does not adapt 
+to player behavior.

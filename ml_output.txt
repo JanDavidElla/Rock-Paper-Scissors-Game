@@ -1,0 +1,38 @@
+This file demonstrates sample output from running the application in Intelligent AI mode.
+
+Game Mode: Intelligent Strategy
+Total Rounds: 20
+
+New game started: 20 rounds using Intelligent AI.
+
+Round 1: Human Rock | Computer Scissors | Human wins
+Round 2: Human Rock | Computer Scissors | Human wins
+Round 3: Human Rock | Computer Paper | Computer wins
+Round 4: Human Rock | Computer Scissors | Human wins
+Round 5: Human Rock | Computer Paper | Computer wins
+Round 6: Human Scissors | Computer Scissors | Tie
+Round 7: Human Paper | Computer Scissors | Computer wins
+Round 8: Human Rock | Computer Paper | Computer wins
+Round 9: Human Scissors | Computer Rock | Computer wins
+Round 10: Human Rock | Computer Scissors | Human wins
+Round 11: Human Rock | Computer Rock | Tie
+Round 12: Human Rock | Computer Scissors | Human wins
+Round 13: Human Rock | Computer Paper | Computer wins
+Round 14: Human Rock | Computer Scissors | Human wins
+Round 15: Human Rock | Computer Paper | Computer wins
+Round 16: Human Rock | Computer Scissors | Human wins
+Round 17: Human Rock | Computer Paper | Computer wins
+Round 18: Human Rock | Computer Paper | Computer wins
+Round 19: Human Paper | Computer Rock | Human wins
+Round 20: Human Rock | Computer Paper | Computer wins
+
+Final Statistics:
+Human wins: 8
+Computer wins: 10
+Ties: 2
+
+Summary:
+The Intelligent AI strategy analyzed previous user choices and adjusted 
+its move selection over time. In multiple rounds, the computer selected 
+Paper against repeated Rock choices, showing adaptive behavior instead of 
+purely random decisions.

@@ -48,7 +48,7 @@ public class GameSession {
 
         updateScores(outcome);
         updatePlayerHistory(humanMove, outcome);
-        strategy.onRoundEnd(humanMove, computerMove);
+        strategy.observeRound(humanMove, computerMove);
 
         RoundResult result = new RoundResult(
                 currentRound,
@@ -131,6 +131,5 @@ public class GameSession {
         currentPlayer.setFavoriteMove();
         userManagement.savePlayer(currentPlayer);
         dataLoader.store(gson, userManagement.getPlayersAsArray());
-        strategy.onGameEnd();
     }
 }

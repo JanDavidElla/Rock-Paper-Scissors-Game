@@ -69,9 +69,7 @@ public class App extends Application {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final DataLoader dataLoader = new DataLoader(".", "data.json");
     private final GameRules gameRules = new GameRules();
-    private final ChoiceStrategy predictionStrategy = new Prediction();
-    private final ChoiceStrategy randomStrategy = new RandomStrategy();
-    private ChoiceStrategy selectedStrategy = predictionStrategy;
+    private boolean intelligentStrategySelected = true;
 
     private UserManagement userManagement;
     private Player currentPlayer;
@@ -135,7 +133,6 @@ public class App extends Application {
             dataLoader.store(gson, userManagement.getPlayersAsArray());
         }
 
-        predictionStrategy.onGameEnd();
     }
 
     private BorderPane createRoot() {
@@ -409,7 +406,8 @@ public class App extends Application {
             gameSession.closeSession();
         }
 
-        gameSession = new GameSession(currentPlayer, totalRounds, selectedStrategy, gameRules, userManagement, dataLoader, gson);
+        ChoiceStrategy strategy = StrategyFactory.create(intelligentStrategySelected);
+        gameSession = new GameSession(currentPlayer, totalRounds, strategy, gameRules, userManagement, dataLoader, gson);
         roundHistory.clear();
         roundHistory.add("New game started: " + totalRounds + " rounds using " + gameSession.getStrategyName() + ".");
         setMoveButtonsDisabled(false);
@@ -439,13 +437,14 @@ public class App extends Application {
     }
 
     private void updateSelectedStrategy() {
-        selectedStrategy = intelligentRadio.isSelected() ? predictionStrategy : randomStrategy;
-        modeLabel.setText("Mode: " + selectedStrategy.getStrategyName());
+        intelligentStrategySelected = intelligentRadio.isSelected();
+        String strategyName = StrategyFactory.getStrategyName(intelligentStrategySelected);
+        modeLabel.setText("Mode: " + strategyName);
 
         if (gameSession == null || gameSession.isGameOver()) {
-            strategySelectionLabel.setText("Selected strategy: " + selectedStrategy.getStrategyName());
+            strategySelectionLabel.setText("Selected strategy: " + strategyName);
         } else {
-            strategySelectionLabel.setText("Selected strategy for next game: " + selectedStrategy.getStrategyName());
+            strategySelectionLabel.setText("Selected strategy for next game: " + strategyName);
         }
     }
 
@@ -525,7 +524,7 @@ public class App extends Application {
     }
 
     private String buildStartingPredictionMessage() {
-        if (selectedStrategy == randomStrategy) {
+        if (!intelligentStrategySelected) {
             return "Prediction: Random AI does not predict your next move.";
         }
 
