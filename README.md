@@ -1,9 +1,5 @@
 # ✊✋✌️ Rock Paper Scissors — Assignment 5
 
-> A JavaFX-powered, strategy-driven implementation of Rock Paper Scissors with an intelligent prediction engine that learns from your moves.
-
----
-
 ## Overview
 
 This project is an enhanced version of the classic Rock Paper Scissors game built in **Java with JavaFX**. Building on Assignment 4, this iteration introduces a full graphical interface and a machine-learning-inspired strategy that adapts to user behavior over time.
@@ -124,32 +120,6 @@ User history → Frequency analysis → Predicted move → Counter move played
 
 ---
 
-## Project Structure
-
-```
-rock-paper-scissors/
-├── src/
-│   └── main/
-│       ├── java/
-│       │   ├── App.java                  # Entry point
-│       │   ├── GameController.java       # JavaFX controller
-│       │   ├── strategy/
-│       │   │   ├── GameStrategy.java     # Strategy interface
-│       │   │   ├── RandomStrategy.java
-│       │   │   └── IntelligentStrategy.java
-│       │   └── model/
-│       │       ├── Game.java
-│       │       └── Move.java
-│       └── resources/
-│           └── game.fxml                 # UI layout
-├── pom.xml
-└── README.md
-```
-
-> ⚠️ Structure may vary slightly depending on your implementation.
-
----
-
 ## Improvements from Assignment 4
 
 - ✅ Full JavaFX graphical user interface
@@ -159,15 +129,3 @@ rock-paper-scissors/
 - ✅ Button hover effects and improved UI styling
 - ✅ Improved code structure and modularity via Strategy Pattern
 
----
-
-## Author
-
-**Juan** — San Jose State University  
-CMPE 195A — Senior Design  
-
----
-
-## License
-
-This project is for academic purposes only.
