@@ -1,6 +1,5 @@
 package depen;
 
-import depen.Player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -64,7 +63,7 @@ public class DataLoader implements DataStorage {
         }
     }
 
-    public boolean load_example(){
+    public boolean loadExample() {
         Player player = new Player("67", "Andrew");
         Player player1 = new Player("68", "Ron");
         Player player2 = new Player("69", "Jan");

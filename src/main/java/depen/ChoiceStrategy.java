@@ -5,6 +5,5 @@ public interface ChoiceStrategy {
     String getStrategyName();
 
     default void observeRound(Move humanMove, Move computerMove) {
-        // default no-op
     }
 }

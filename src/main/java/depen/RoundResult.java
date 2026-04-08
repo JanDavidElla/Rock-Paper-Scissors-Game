@@ -14,19 +14,18 @@ public class RoundResult {
     private final int ties;
     private final boolean gameOver;
 
-    public RoundResult(
-            int roundNumber,
-            int totalRounds,
-            Move humanMove,
-            Move predictedHumanMove,
-            Move computerMove,
-            Double predictionConfidence,
-            String strategyName,
-            RoundOutcome outcome,
-            int humanWins,
-            int computerWins,
-            int ties,
-            boolean gameOver) {
+    public RoundResult(int roundNumber,
+                       int totalRounds,
+                       Move humanMove,
+                       Move predictedHumanMove,
+                       Move computerMove,
+                       Double predictionConfidence,
+                       String strategyName,
+                       RoundOutcome outcome,
+                       int humanWins,
+                       int computerWins,
+                       int ties,
+                       boolean gameOver) {
         this.roundNumber = roundNumber;
         this.totalRounds = totalRounds;
         this.humanMove = humanMove;

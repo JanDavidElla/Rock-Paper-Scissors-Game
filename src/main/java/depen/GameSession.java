@@ -19,14 +19,13 @@ public class GameSession {
     private Move lastHumanMove;
     private boolean gameOver;
 
-    public GameSession(
-            Player currentPlayer,
-            int totalRounds,
-            ChoiceStrategy strategy,
-            GameRules gameRules,
-            UserManagement userManagement,
-            DataLoader dataLoader,
-            Gson gson) {
+    public GameSession(Player currentPlayer,
+                       int totalRounds,
+                       ChoiceStrategy strategy,
+                       GameRules gameRules,
+                       UserManagement userManagement,
+                       DataLoader dataLoader,
+                       Gson gson) {
         this.currentPlayer = currentPlayer;
         this.totalRounds = totalRounds;
         this.strategy = strategy;
@@ -50,8 +49,7 @@ public class GameSession {
         updatePlayerHistory(humanMove, outcome);
         strategy.observeRound(humanMove, computerMove);
 
-        RoundResult result = new RoundResult(
-                currentRound,
+        RoundResult result = new RoundResult(currentRound,
                 totalRounds,
                 humanMove,
                 snapshot.getPredictedHumanMove(),
