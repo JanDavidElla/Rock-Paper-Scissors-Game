@@ -1,43 +1,131 @@
-## Rock Paper Scissors Game
+# ✊✋✌️ Rock Paper Scissors — Assignment 5
 
-A simple classic Rock Paper Scissors game in Java for CS151.
 
-### Setup (Maven)
+## Overview
 
-1. Install [Maven](https://maven.apache.org/download.cgi) if you haven't already, (run `mvn -v` to check if you have it already)
-   - macOS: use brew, `brew install maven`
-   - Windows: download the zip, extract it, and add the `bin` folder to your PATH
-2. From the project root directory, compile with:
-   ```
-   mvn compile
-   ```
-3. Run the app:
-   ```
-   mvn "exec:java" "-Dexec.mainClass=depen.App"
-   ```
+This project is an enhanced version of the classic Rock Paper Scissors game built in **Java with JavaFX**. Building on Assignment 4, this iteration introduces a full graphical interface and a machine-learning-inspired strategy that adapts to user behavior over time.
 
-   Run RANDOM version
-   ```
-   mvn exec:java -Dexec.mainClass="depen.App" -Dexec.args="-r"
+---
 
-   Windows: mvn "exec:java" "-Dexec.mainClass=depen.App" "-Dexec.args=-r"
-   ```
+## Features
 
-   Run MACHINE LEARNING version
-   ```
-   mvn exec:java -Dexec.mainClass="depen.App" -Dexec.args="-m"
+- 🖥️ **JavaFX GUI** — Clean, interactive graphical interface with hover effects and responsive styling
+- 🎯 **Strategy Pattern** — Decoupled game logic via the Strategy design pattern
+- 🧠 **Two Game Modes:**
+  - **Random Strategy** — Computer picks moves at random
+  - **Intelligent Strategy** — Predicts your next move based on historical patterns
+- 📊 **Live Statistics** — Real-time win/loss/tie tracking
+- 🕓 **Round History** — Full log of past rounds in the session
+- 🔄 **New Game** — Reset progress at any time
+- 📋 **Menu Bar** — `Game → New Game / Exit` and a `Help` section
 
-   Windows: mvn "exec:java" "-Dexec.mainClass=depen.App" "-Dexec.args=-m"
-   ```
+---
 
-### How to Run
+## Technologies Used
 
-1. Run the main class to start playing
-2. Enter your choice: Rock, Paper, or Scissors
-3. The game will compare your choice to the computer's choice (Finds out your most likely sequential move and chooses its opposite) and declare a winner
+| Technology | Version |
+|------------|---------|
+| Java       | 21      |
+| JavaFX     | Latest  |
+| Maven      | 3.x     |
+| Gson       | Latest  |
 
-### Rules
+---
 
-- Rock beats Scissors
-- Scissors beats Paper
-- Paper beats Rock
+## Setup
+
+### Prerequisites
+
+Make sure you have **Java 21** installed. Verify with:
+
+```bash
+java -version
+```
+
+### 1. Install Maven
+
+Check if Maven is already installed:
+
+```bash
+mvn -v
+```
+
+If not installed:
+
+**macOS (Homebrew):**
+```bash
+brew install maven
+```
+
+**Windows:**
+1. Download Maven from [maven.apache.org](https://maven.apache.org/download.cgi)
+2. Extract the archive
+3. Add the `bin` folder to your system `PATH`
+
+### 2. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd rock-paper-scissors
+```
+
+### 3. Compile the Project
+
+```bash
+mvn clean compile
+```
+
+---
+
+## Running the Application
+
+```bash
+mvn javafx:run
+```
+
+---
+
+## How to Play
+
+1. Launch the application with `mvn javafx:run`
+2. Click **Rock**, **Paper**, or **Scissors**
+3. The computer makes its move
+4. Results and statistics update in real time
+5. Use **Start New Game** to reset all progress
+
+---
+
+## Game Rules
+
+| Move     | Beats     |
+|----------|-----------|
+| ✊ Rock    | ✌️ Scissors |
+| ✌️ Scissors | ✋ Paper   |
+| ✋ Paper   | ✊ Rock    |
+
+---
+
+## How It Works
+
+The application uses the **Strategy Pattern** to separate game logic from decision-making, making it easy to swap or extend strategies.
+
+### Random Strategy
+The computer selects moves uniformly at random — no prediction, no pattern.
+
+### Intelligent Strategy
+The computer builds a frequency map of your move history and predicts your most likely next move, then plays the counter. The longer you play, the smarter it gets.
+
+```
+User history → Frequency analysis → Predicted move → Counter move played
+```
+
+---
+
+## Improvements from Assignment 4
+
+- ✅ Full JavaFX graphical user interface
+- ✅ Intelligent move prediction system
+- ✅ Game session and round history tracking
+- ✅ Menu bar with New Game and Exit options
+- ✅ Button hover effects and improved UI styling
+- ✅ Improved code structure and modularity via Strategy Pattern
