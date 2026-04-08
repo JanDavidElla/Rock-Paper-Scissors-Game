@@ -82,12 +82,22 @@ public class UserManagement {
         return players.toArray(new Player[0]);
     }
 
-    private Player findByUsername(String userName) {
+    public Player findByUsername(String userName) {
+        if (userName == null) {
+            return null;
+        }
+
         for (Player p : players) {
             if (p.getUserName().equals(userName)) {
                 return p;
             }
         }
         return null;
+    }
+
+    public Player createPlayer(String userName, String name) {
+        Player player = new Player(userName, name);
+        savePlayer(player);
+        return player;
     }
 }

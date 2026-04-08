@@ -42,34 +42,20 @@ public class Prediction implements ChoiceStrategy {
 
     @Override
     public Move chooseMove(Player player, Move lastUserMove) {
-        // Need at least N-1 previous choices to predict
-        if (recentChoices.size() < N - 1) {
-            return getRandomMove();
-        }
+        return getPredictionSnapshot(player, lastUserMove).getComputerMove();
+    }
 
-        String prefix = getLastChoices(N - 1);
-
-        int rockFreq = sequenceCounts.getOrDefault(prefix + "R", 0);
-        int paperFreq = sequenceCounts.getOrDefault(prefix + "P", 0);
-        int scissorsFreq = sequenceCounts.getOrDefault(prefix + "S", 0);
-
-        if (rockFreq == 0 && paperFreq == 0 && scissorsFreq == 0) {
-            return getRandomMove();
-        }
-
-        // Predict the human move with highest frequency, then counter it
-        if (rockFreq >= paperFreq && rockFreq >= scissorsFreq) {
-            return Move.PAPER;      // beats ROCK
-        } else if (paperFreq >= rockFreq && paperFreq >= scissorsFreq) {
-            return Move.SCISSORS;   // beats PAPER
-        } else {
-            return Move.ROCK;       // beats SCISSORS
-        }
+    @Override
+    public PredictionSnapshot getPredictionSnapshot(Player player, Move lastUserMove) {
+        PredictionDetail detail = predictHumanMove();
+        Move predictedHumanMove = detail.predictedMove();
+        Move computerMove = predictedHumanMove == null ? getRandomMove() : counterMove(predictedHumanMove);
+        return new PredictionSnapshot(predictedHumanMove, computerMove, detail.confidence());
     }
 
     @Override
     public String getStrategyName() {
-        return "Machine Learning";
+        return "Intelligent AI";
     }
 
     @Override
@@ -90,6 +76,47 @@ public class Prediction implements ChoiceStrategy {
     @Override
     public void onGameEnd() {
         saveState();
+    }
+
+    private PredictionDetail predictHumanMove() {
+        if (recentChoices.size() < N - 1) {
+            return new PredictionDetail(null, null);
+        }
+
+        String prefix = getLastChoices(N - 1);
+
+        int rockFreq = sequenceCounts.getOrDefault(prefix + "R", 0);
+        int paperFreq = sequenceCounts.getOrDefault(prefix + "P", 0);
+        int scissorsFreq = sequenceCounts.getOrDefault(prefix + "S", 0);
+        int total = rockFreq + paperFreq + scissorsFreq;
+
+        if (total == 0) {
+            return new PredictionDetail(null, null);
+        }
+
+        Move predictedMove;
+        int strongestCount;
+
+        if (rockFreq >= paperFreq && rockFreq >= scissorsFreq) {
+            predictedMove = Move.ROCK;
+            strongestCount = rockFreq;
+        } else if (paperFreq >= rockFreq && paperFreq >= scissorsFreq) {
+            predictedMove = Move.PAPER;
+            strongestCount = paperFreq;
+        } else {
+            predictedMove = Move.SCISSORS;
+            strongestCount = scissorsFreq;
+        }
+
+        return new PredictionDetail(predictedMove, strongestCount / (double) total);
+    }
+
+    private Move counterMove(Move predictedHumanMove) {
+        return switch (predictedHumanMove) {
+            case ROCK -> Move.PAPER;
+            case PAPER -> Move.SCISSORS;
+            case SCISSORS -> Move.ROCK;
+        };
     }
 
     private void addChoice(char symbol, boolean storeIfReady) {
@@ -163,5 +190,8 @@ public class Prediction implements ChoiceStrategy {
     private static class MLState {
         Map<String, Integer> sequenceCounts = new HashMap<>();
         ArrayList<Character> recentChoices = new ArrayList<>();
+    }
+
+    private record PredictionDetail(Move predictedMove, Double confidence) {
     }
 }
