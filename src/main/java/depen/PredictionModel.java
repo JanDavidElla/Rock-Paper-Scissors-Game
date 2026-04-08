@@ -117,6 +117,21 @@ class PredictionModel {
         ArrayList<Character> recentChoices = new ArrayList<>();
     }
 
-    record PredictionDetail(Move predictedMove, Double confidence) {
+    static final class PredictionDetail {
+        private final Move predictedMove;
+        private final Double confidence;
+
+        PredictionDetail(Move predictedMove, Double confidence) {
+            this.predictedMove = predictedMove;
+            this.confidence = confidence;
+        }
+
+        Move predictedMove() {
+            return predictedMove;
+        }
+
+        Double confidence() {
+            return confidence;
+        }
     }
 }
