@@ -1,163 +1,134 @@
 package depen;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Field;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
 
     private Player player;
-    private GameRules game;
+    private GameRules gameRules;
 
     @BeforeEach
     public void setUp() {
         player = new Player("testUser", "Tester");
-        game = new GameRules(player, 20, 0, 0, 0);
+        gameRules = new GameRules();
     }
-
-    private int getScore(String fieldName) throws Exception {
-        Field f = GameRules.class.getDeclaredField(fieldName);
-        f.setAccessible(true);
-        return (int) f.get(game);
-    }
-
-    //Tests for humanChoice() and computerChoice() methods
 
     @Test
     public void testHumanChoiceRock() {
-        assertEquals("rock", game.humanChoice(Move.ROCK));
+        assertEquals("rock", gameRules.humanChoice(Move.ROCK));
     }
 
     @Test
     public void testHumanChoicePaper() {
-        assertEquals("paper", game.humanChoice(Move.PAPER));
+        assertEquals("paper", gameRules.humanChoice(Move.PAPER));
     }
 
     @Test
     public void testHumanChoiceScissors() {
-        assertEquals("scissors", game.humanChoice(Move.SCISSORS));
+        assertEquals("scissors", gameRules.humanChoice(Move.SCISSORS));
     }
 
     @Test
     public void testComputerChoiceRock() {
-        assertEquals("rock", game.computerChoice(Move.ROCK));
+        assertEquals("rock", gameRules.computerChoice(Move.ROCK));
     }
 
     @Test
     public void testComputerChoicePaper() {
-        assertEquals("paper", game.computerChoice(Move.PAPER));
+        assertEquals("paper", gameRules.computerChoice(Move.PAPER));
     }
 
     @Test
     public void testComputerChoiceScissors() {
-        assertEquals("scissors", game.computerChoice(Move.SCISSORS));
-    }
-
-    //Tests for score() method
-
-    // Tests for draw scenarios
-
-    @Test
-    public void testPlayRoundDrawRock() throws Exception {
-        game.score(Move.ROCK, Move.ROCK, player);
-        assertEquals(1, getScore("tieScore"));
-        assertEquals(0, getScore("humanScore"));
-        assertEquals(0, getScore("computerScore"));
+        assertEquals("scissors", gameRules.computerChoice(Move.SCISSORS));
     }
 
     @Test
-    public void testPlayRoundDrawPaper() throws Exception {
-        game.score(Move.PAPER, Move.PAPER, player);
-        assertEquals(1, getScore("tieScore"));
+    public void testDetermineOutcomeTie() {
+        assertEquals(RoundOutcome.TIE, gameRules.determineOutcome(Move.ROCK, Move.ROCK));
     }
 
     @Test
-    public void testPlayRoundDrawScissors() throws Exception {
-        game.score(Move.SCISSORS, Move.SCISSORS, player);
-        assertEquals(1, getScore("tieScore"));
+    public void testDetermineOutcomeHumanWin() {
+        assertEquals(RoundOutcome.HUMAN_WIN, gameRules.determineOutcome(Move.PAPER, Move.ROCK));
     }
 
     @Test
-    public void testPlayRoundDrawDoesNotIncrementPlayerStats() throws Exception {
-        game.score(Move.ROCK, Move.ROCK, player);
-        assertEquals(0, getScore("humanScore"));
-        assertEquals(0, getScore("computerScore"));
-    }
-
-    // Tests for human win scenarios
-
-    @Test
-    public void testPlayRoundRockBeatsScissors() throws Exception {
-        game.score(Move.ROCK, Move.SCISSORS, player);
-        assertEquals(1, getScore("humanScore"));
-        assertEquals(0, getScore("computerScore"));
+    public void testDetermineOutcomeComputerWin() {
+        assertEquals(RoundOutcome.COMPUTER_WIN, gameRules.determineOutcome(Move.SCISSORS, Move.ROCK));
     }
 
     @Test
-    public void testPlayRoundPaperBeatsRock() throws Exception {
-        game.score(Move.PAPER, Move.ROCK, player);
-        assertEquals(1, getScore("humanScore"));
+    public void testGetRoundMessage() {
+        assertEquals("Human wins this round!", gameRules.getRoundMessage(RoundOutcome.HUMAN_WIN));
     }
 
     @Test
-    public void testPlayRoundScissorsBeatsPaper() throws Exception {
-        game.score(Move.SCISSORS, Move.PAPER, player);
-        assertEquals(1, getScore("humanScore"));
+    public void testGameSessionTracksScoresAndPersistsData() throws Exception {
+        Path tempDir = Files.createTempDirectory("rps-app-test");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        DataLoader dataLoader = new DataLoader(tempDir.toString(), "players.json");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        UserManagement userManagement = new UserManagement(players);
+
+        ChoiceStrategy strategy = new StubStrategy(
+                new PredictionSnapshot(Move.ROCK, Move.SCISSORS, 0.75),
+                new PredictionSnapshot(Move.PAPER, Move.ROCK, 0.60));
+
+        GameSession session = new GameSession(player, 2, strategy, gameRules, userManagement, dataLoader, gson);
+
+        RoundResult roundOne = session.playRound(Move.ROCK);
+        assertEquals(1, roundOne.getRoundNumber());
+        assertEquals(RoundOutcome.HUMAN_WIN, roundOne.getOutcome());
+        assertEquals(1, roundOne.getHumanWins());
+        assertEquals(0.75, roundOne.getPredictionConfidence());
+        assertFalse(roundOne.isGameOver());
+
+        RoundResult roundTwo = session.playRound(Move.PAPER);
+        assertEquals(2, roundTwo.getRoundNumber());
+        assertEquals(RoundOutcome.HUMAN_WIN, roundTwo.getOutcome());
+        assertEquals(2, roundTwo.getHumanWins());
+        assertTrue(roundTwo.isGameOver());
+
+        Player[] savedPlayers = dataLoader.load(gson);
+        assertEquals(1, savedPlayers.length);
+        assertEquals(2, savedPlayers[0].getMoveHistory().size());
+        assertEquals("Rock", savedPlayers[0].getFavoriteMove());
     }
 
-    @Test
-    public void testPlayRoundHumanWinAddsToMoveHistory() throws Exception {
-        game.score(Move.ROCK, Move.SCISSORS, player);
-        assertEquals(1, player.getMoveHistory().size());
-        assertEquals(Move.ROCK, player.getMoveHistory().get(0));
-    }
+    private static class StubStrategy implements ChoiceStrategy {
+        private final PredictionSnapshot[] snapshots;
+        private int index;
 
-    // Tests for computer win scenarios
+        private StubStrategy(PredictionSnapshot... snapshots) {
+            this.snapshots = snapshots;
+        }
 
-    @Test
-    public void testPlayRoundScissorsLosesToRock() throws Exception {
-        game.score(Move.SCISSORS, Move.ROCK, player);
-        assertEquals(1, getScore("computerScore"));
-        assertEquals(0, getScore("humanScore"));
-    }
+        @Override
+        public Move chooseMove(Player player, Move lastUserMove) {
+            return getPredictionSnapshot(player, lastUserMove).getComputerMove();
+        }
 
-    @Test
-    public void testPlayRoundRockLosesToPaper() throws Exception {
-        game.score(Move.ROCK, Move.PAPER, player);
-        assertEquals(1, getScore("computerScore"));
-    }
+        @Override
+        public PredictionSnapshot getPredictionSnapshot(Player player, Move lastUserMove) {
+            PredictionSnapshot snapshot = snapshots[Math.min(index, snapshots.length - 1)];
+            index++;
+            return snapshot;
+        }
 
-    @Test
-    public void testPlayRoundPaperLosesToScissors() throws Exception {
-        game.score(Move.PAPER, Move.SCISSORS, player);
-        assertEquals(1, getScore("computerScore"));
-    }
-
-    @Test
-    public void testPlayRoundComputerWinAddsToMoveHistory() throws Exception {
-        game.score(Move.SCISSORS, Move.ROCK, player);
-        assertEquals(1, player.getMoveHistory().size());
-        assertEquals(Move.SCISSORS, player.getMoveHistory().get(0));
-    }
-
-    // Tests for score accumulation and move history growth over multiple rounds
-
-    @Test
-    public void testScoresAccumulateOverMultipleRounds() throws Exception {
-        game.score(Move.ROCK, Move.SCISSORS, player); // human win
-        game.score(Move.ROCK, Move.PAPER, player); // computer win
-        game.score(Move.ROCK, Move.ROCK, player); // tie
-        assertEquals(1, getScore("humanScore"));
-        assertEquals(1, getScore("computerScore"));
-        assertEquals(1, getScore("tieScore"));
-    }
-
-    @Test
-    public void testMoveHistoryGrowsEachRound() throws Exception {
-        game.score(Move.ROCK, Move.SCISSORS, player);
-        game.score(Move.PAPER, Move.ROCK, player);
-        game.score(Move.SCISSORS, Move.PAPER, player);
-        assertEquals(3, player.getMoveHistory().size());
+        @Override
+        public String getStrategyName() {
+            return "Stub";
+        }
     }
 }

@@ -1,0 +1,9 @@
+# CS 151 Assignment 5 Report
+
+For this JavaFX version of Rock, Paper, Scissors, the main events come from user interface actions. The three move buttons generate action events when the user clicks Rock, Paper, or Scissors. The menu items also generate action events for About, Exit, and Start a New Game. I also use dialog events when the program asks for the player's username and display name at startup.
+
+Each event is handled by a callback function. The Rock, Paper, and Scissors buttons call a method that runs one round through the `GameSession` class and then updates the labels on the screen. The Start a New Game menu item calls a callback that reads the round spinner value, creates a new game session, resets the displayed statistics, and enables the buttons again. The About menu item opens an information dialog, and Exit closes the stage so the application can save player data and machine-learning data before ending.
+
+I reused several classes from Assignment 4 instead of rewriting the project. `Move` still represents the available choices. `GameRules` still contains the Rock, Paper, Scissors decision logic, but it was refactored so it can be called from the GUI. `Prediction` and `ChoiceStrategy` still handle the simple machine-learning behavior and continue saving the frequency table to `ml-data.json`. `Player`, `DataLoader`, and `UserManagement` were also reused so the program can keep player history and save data between runs.
+
+The biggest design change was inversion of control. In the console version, the program controlled the whole flow with a loop that asked for input every round. In the JavaFX version, the framework controls the flow and waits for user actions. Instead of a loop reading from `Scanner`, the program now responds to events. That means the GUI only reacts when the user clicks a button or selects a menu item, and the `GameSession` class keeps track of the game state between those events.

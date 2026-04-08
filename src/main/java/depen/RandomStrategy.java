@@ -13,6 +13,6 @@ public class RandomStrategy implements ChoiceStrategy {
 
     @Override
     public String getStrategyName() {
-        return "Random";
+        return "Random AI";
     }
 }
